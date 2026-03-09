@@ -89,15 +89,16 @@
            ---------------------------------------------------- */
         .bg-dynamic {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3;
-            background: linear-gradient(135deg, #050505 0%, #150918 50%, #030815 100%);
-            background-size: 300% 300%;
-            animation: gradientMove 15s ease infinite alternate;
+            background-image: url('https://raw.githubusercontent.com/DuendeFunk/Links/main/pruebafondo.png');
+            background-size: cover;
+            background-position: center;
+            animation: breatheBg 20s ease-in-out infinite;
         }
 
         .bg-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
-            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 60%);
-            animation: breathe 8s ease-in-out infinite alternate;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(2px);
             pointer-events: none;
         }
 
@@ -130,8 +131,7 @@
             animation: titleInterference 6s ease-in-out infinite;
         }
 
-        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes breathe { 0% { transform: scale(1); opacity: 0.6;} 100% { transform: scale(1.15); opacity: 1;} }
+        @keyframes breatheBg { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
         /* ----------------------------------------------------
            Componentes UI (Glassmorphism)
