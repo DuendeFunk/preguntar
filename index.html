@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUENDEFUNK - LUZ DEL ALBA</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Space Mono"', 'monospace'],
+                        display: ['"Russo One"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            acid: '#ccff00',
+                            magenta: '#ff00cc',
+                            cyan: '#00ffff',
+                            black: '#000000',
+                            white: '#ffffff'
+                        }
+                    },
+                    boxShadow: {
+                        'brutal': '8px 8px 0px 0px rgba(0,0,0,1)',
+                        'brutal-hover': '16px 16px 0px 0px rgba(0,0,0,1)',
+                        'brutal-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base Reset */
+        body {
+            background-color: #f4f4f0; /* Off-white paper color */
+            color: #000;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            background-image: radial-gradient(#000 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Marquee Animation */
+        .marquee-wrapper {
+            width: 100vw;
+            overflow: hidden;
+            background: #ff00cc;
+            border-bottom: 4px solid #000;
+            border-top: 4px solid #000;
+            padding: 8px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+        }
+
+        .marquee-text {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 0 2rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Brutalist Card Interactions */
+        .brutal-card {
+            border: 4px solid #000;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .brutal-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px 0px rgba(0,0,0,1);
+        }
+        
+        .brutal-card:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        }
+
+        /* Glitch Effect on Title */
+        .glitch-wrapper { position: relative; display: inline-block; }
+        .glitch-text {
+            position: relative;
+            color: #000;
+            z-index: 10;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch-text::before {
+            left: 4px;
+            text-shadow: -2px 0 #ff00cc;
+            z-index: -1;
+            /* animation: glitch-anim-1 2s infinite linear alternate-reverse; */
+        }
+        .glitch-text::after {
+            left: -4px;
+            text-shadow: -2px 0 #00ffff;
+            z-index: -2;
+            /* animation: glitch-anim-2 3s infinite linear alternate-reverse; */
+        }
+
+        /* Toast CSS - Brutalist Style */
+        #toast {
+            visibility: hidden;
+            min-width: 300px;
+            margin-left: -150px;
+            background: #ccff00;
+            border: 4px solid #000;
+            color: #000;
+            text-align: center;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+            opacity: 0;
+            transition: all 0.2s ease-out;
+            transform: translateY(20px);
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            bottom: 80px;
+        }
+        
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pt-20 pb-10 flex flex-col items-center selection:bg-brand-acid selection:text-black">
+
+    <!-- Scrolling Marquee -->
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            <span class="marquee-text">⚡ LUZ DEL ALBA OUT NOW ⚡ FUNK IS NOT DEAD ⚡ REPARTO BUENA ONDA ⚡</span>
+            <span class="marquee-text">⚡ LUZ DEL ALBA OUT NOW ⚡ FUNK IS NOT DEAD ⚡ REPARTO BUENA ONDA ⚡</span>
+            <span class="marquee-text">⚡ LUZ DEL ALBA OUT NOW ⚡ FUNK IS NOT DEAD ⚡ REPARTO BUENA ONDA ⚡</span>
+        </div>
+    </div>
+
+    <main class="w-full max-w-[1000px] mx-auto px-4 sm:px-6 relative z-10">
+        
+        <!-- Main Container: Massive border, bright yellow bg -->
+        <div class="bg-brand-acid border-[6px] border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] p-6 md:p-10 relative overflow-hidden">
+            
+            <!-- Decorative interior grid -->
+            <div class="absolute inset-0 bg-grid-pattern pointer-events-none opacity-50 mix-blend-multiply"></div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
+                
+                <!-- IDENTITY SECTION (Left 5 cols) -->
+                <section class="lg:col-span-5 flex flex-col gap-6 items-center lg:items-start text-center lg:text-left">
+                    
+                    <!-- Brutalist Avatar -->
+                    <div class="relative group cursor-crosshair">
+                        <div class="absolute inset-0 bg-brand-cyan translate-x-2 translate-y-2 border-4 border-black"></div>
+                        <img src="https://ui-avatars.com/api/?name=DF&background=000&color=00ffff&size=512&font-size=0.4" alt="DuendeFunk" class="w-48 h-48 md:w-56 md:h-56 border-4 border-black relative z-10 object-cover bg-white grayscale group-hover:grayscale-0 transition-all duration-300">
+                        
+                        <!-- Starburst decoration -->
+                        <div class="absolute -top-6 -right-6 w-16 h-16 bg-brand-magenta text-white font-display text-xl flex items-center justify-center rounded-full border-4 border-black z-20 shadow-brutal-sm rotate-12 group-hover:rotate-45 transition-transform duration-300">
+                            NEW
+                        </div>
+                    </div>
+
+                    <!-- Artist Info -->
+                    <div class="flex flex-col gap-2 w-full mt-4">
+                        <div class="glitch-wrapper self-center lg:self-start">
+                            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase glitch-text" data-text="DUENDE FUNK">
+                                DUENDE<br/>FUNK
+                            </h1>
+                        </div>
+                        
+                        <div class="bg-black text-white font-mono font-bold py-2 px-4 shadow-brutal-sm inline-block self-center lg:self-start border-2 border-black -rotate-2 transform hover:rotate-0 transition-transform">
+                            LUZ DEL ALBA // OUT NOW
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTENT SECTION (Right 7 cols) -->
+                <section class="lg:col-span-7 flex flex-col gap-6">
+                    
+                    <!-- Featured Video -->
+                    <article class="bg-brand-magenta border-4 border-black shadow-brutal p-3 transform transition-transform hover:-translate-y-1">
+                        <div class="border-4 border-black bg-black aspect-video relative overflow-hidden">
+                            <iframe 
+                                src="https://www.youtube.com/embed/G66_1v7-S6s?enablejsapi=1&autoplay=0&controls=1&modestbranding=1&rel=0" 
+                                title="Luz del Alba - Video Oficial" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen
+                                class="absolute top-0 left-0 w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+                                id="featured-video">
+                            </iframe>
+                        </div>
+                        <div class="mt-2 font-mono font-bold text-white text-lg uppercase tracking-wider text-center flex items-center justify-between px-2">
+                           <span><i class="fa-solid fa-play"></i> OFFICIAL VIDEO</span>
+                           <span class="text-xs">ID: G66_1V7-S6S</span>
+                        </div>
+                    </article>
+
+                    <!-- Links Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+                        
+                        <!-- YouTube Button -->
+                        <a href="https://www.youtube.com/@DUENDEFUNK-11-11" id="link-youtube" class="brutal-card bg-white p-4 flex items-center gap-4 cursor-pointer shadow-brutal" onclick="trackEvent('Click', 'Social', 'YouTube')">
+                            <div class="w-16 h-16 shrink-0 bg-red-600 border-4 border-black flex items-center justify-center text-white text-3xl">
+                                <i class="fa-brands fa-youtube"></i>
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <h3 class="font-display text-2xl uppercase leading-none">YouTube</h3>
+                                <p class="text-black font-mono text-sm truncate font-bold mt-1">@DUENDEFUNK-11-11</p>
+                            </div>
+                        </a>
+
+                        <!-- TikTok Button -->
+                        <a href="https://www.tiktok.com/@duendefunk3" id="link-tiktok" target="_blank" rel="noopener noreferrer" class="brutal-card bg-white p-4 flex items-center gap-4 cursor-pointer shadow-brutal" onclick="trackEvent('Click', 'Social', 'TikTok')">
+                            <div class="w-16 h-16 shrink-0 bg-black border-4 border-black flex items-center justify-center text-brand-cyan text-3xl relative overflow-hidden">
+                                <!-- Fake tiktok glitch layers -->
+                                <i class="fa-brands fa-tiktok absolute text-brand-magenta translate-x-1 translate-y-1 opacity-80"></i>
+                                <i class="fa-brands fa-tiktok relative z-10"></i>
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <h3 class="font-display text-2xl uppercase leading-none">TikTok</h3>
+                                <p class="text-black font-mono text-sm truncate font-bold mt-1">@duendefunk3</p>
+                            </div>
+                        </a>
+
+                        <!-- Instagram Button (Full width on md) -->
+                        <a href="https://www.instagram.com/duendefunk/" target="_blank" rel="noopener noreferrer" class="brutal-card bg-white p-4 flex items-center gap-4 cursor-pointer shadow-brutal md:col-span-2" onclick="trackEvent('Click', 'Social', 'Instagram')">
+                            <div class="w-16 h-16 shrink-0 bg-gradient-to-tr from-yellow-400 via-red-500 to-fuchsia-600 border-4 border-black flex items-center justify-center text-white text-3xl">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div class="flex-grow flex items-center justify-between min-w-0">
+                                <div>
+                                    <h3 class="font-display text-2xl uppercase leading-none">Instagram</h3>
+                                    <p class="text-black font-mono text-sm truncate font-bold mt-1">@duendefunk</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-turn-up text-black text-2xl rotate-90"></i>
+                            </div>
+                        </a>
+
+                        <!-- Tip Jar (Gorra Virtual) Button -->
+                        <!-- Uses button tag for JS clipboard logic -->
+                        <button type="button" id="btn-gorra" class="brutal-card bg-brand-cyan p-4 flex items-center justify-between gap-4 cursor-pointer shadow-brutal md:col-span-2 text-left focus:outline-none" onclick="trackEvent('Click', 'Social', 'GorraVirtual')">
+                            <div class="flex items-center gap-4 flex-grow min-w-0">
+                                <div class="w-16 h-16 shrink-0 bg-blue-600 border-4 border-black flex items-center justify-center text-white text-3xl">
+                                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                                </div>
+                                <div class="flex-grow min-w-0">
+                                    <h3 class="font-display text-2xl uppercase leading-none text-black">Gorra Virtual</h3>
+                                    <div class="flex items-center mt-2 gap-2">
+                                        <span class="text-black font-mono text-sm font-bold">ALIAS:</span>
+                                        <span class="font-mono bg-white text-black px-2 py-1 border-2 border-black font-bold uppercase" id="alias-text">repartobuenaonda</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-3 border-4 border-black shadow-brutal-sm flex items-center justify-center active:translate-y-1 active:shadow-none transition-all">
+                                <i class="fa-solid fa-clone text-black text-xl"></i>
+                            </div>
+                        </button>
+
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full mt-16 mb-8 text-center relative z-10 px-4">
+        <div class="inline-block bg-black text-white font-mono p-3 border-4 border-brand-magenta shadow-brutal transform rotate-1">
+            <p class="text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                <i class="fa-solid fa-code text-brand-acid"></i>
+                Desarrollado por 
+                <a href="https://www.google.com/search?q=juanmartinbarrientos.com" target="_blank" rel="noopener noreferrer" class="text-brand-acid hover:text-brand-cyan underline decoration-4 underline-offset-4 transition-colors">
+                    JMB
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fa-solid fa-bolt text-2xl text-black"></i>
+        <span>ALIAS COPIADO AL PORTAPAPELES</span>
+    </div>
+
+    <!-- Interface Logic -->
+    <script>
+        // 1. Analytics Mock Simulator
+        function trackEvent(action, category, label) {
+            console.log(`[Analytics - Acid] Action: ${action} | Category: ${category} | Label: ${label}`);
+        }
+
+        // 2. Clipboard & Toast Logic for Gorra Virtual
+        const btnGorra = document.getElementById('btn-gorra');
+        const aliasText = 'repartobuenaonda';
+        const toast = document.getElementById('toast');
+        let toastTimeout;
+
+        function showToast() {
+            clearTimeout(toastTimeout);
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        btnGorra.addEventListener('click', () => {
+            trackEvent('Click', 'Monetization', 'Copy Alias initiated');
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                // Modern API
+                navigator.clipboard.writeText(aliasText).then(() => {
+                    showToast();
+                    trackEvent('Click', 'Monetization', 'Copy Alias success (Modern)');
+                }).catch(err => {
+                    console.error('Clipboard API failed', err);
+                    fallbackCopy(aliasText);
+                });
+            } else {
+                // Fallback for older browsers or non-HTTPS
+                fallbackCopy(aliasText);
+            }
+        });
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+                trackEvent('Click', 'Monetization', 'Copy Alias success (Fallback)');
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+            textArea.remove();
+        }
+
+        // 3. YouTube Deep Linking Logic (iOS & Android)
+        document.addEventListener('DOMContentLoaded', () => {
+            const ytLink = document.getElementById('link-youtube');
+            const ytUsername = 'DUENDEFUNK-11-11';
+            const webUrl = `https://www.youtube.com/@${ytUsername}`;
+            
+            ytLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                trackEvent('Click', 'Social', 'YouTube DeepLink Click');
+                
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                const isAndroid = /android/i.test(userAgent);
+                const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+                let isMobile = isAndroid || isIOS;
+
+                if (!isMobile) {
+                    // Desktop goes directly to web
+                    window.open(webUrl, '_blank');
+                    return;
+                }
+
+                // If mobile, try opening app
+                let appUrl = '';
+                if (isIOS) {
+                    appUrl = `vnd.youtube://www.youtube.com/@${ytUsername}`;
+                } else if (isAndroid) {
+                    appUrl = `intent://www.youtube.com/@${ytUsername}#Intent;package=com.google.android.youtube;scheme=https;end`;
+                }
+
+                // Temporary timestamp to see if app switch worked
+                const now = Date.now();
+                const timeout = setTimeout(() => {
+                    if (Date.now() - now < 2500) {
+                        window.location.href = webUrl;
+                    }
+                }, 2000);
+
+                window.location.href = appUrl;
+
+                document.addEventListener("visibilitychange", function handleVisibilityChange() {
+                    if (document.hidden || document.visibilityState === 'hidden') {
+                        clearTimeout(timeout);
+                        document.removeEventListener("visibilitychange", handleVisibilityChange);
+                    }
+                });
+                window.addEventListener('blur', () => clearTimeout(timeout));
+            });
+        });
+    </script>
+</body>
+</html>
